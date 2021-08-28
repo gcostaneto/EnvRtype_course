@@ -37,3 +37,11 @@ source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/met_kerne
 source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/summary_weather.R')
 ```
 ok, it is ugly, but solves it.
+
+
+Some useful packages for our hands-on
+
+```{r, eval=FALSE}
+source("https://raw.githubusercontent.com/gcostaneto/Funcoes_naive/master/instpackage.R")
+inst.package(c("superheat","FactoMineR","tidyverse","ggplot2","reshape2","plyr"))
+```
