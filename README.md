@@ -15,6 +15,12 @@ library(EnvRtype)
 One way to use the package is through source() within your R environment, such as:
 
 ```{r, eval=FALSE}
+https://raw.githubusercontent.com/allogamous/EnvRtype/master/sourceEnvRtype.R
+```
+
+or specific functions
+
+```{r, eval=FALSE}
 
 source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/AtmosphericPAram.R')
 source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/SradPARAM.R')
