@@ -88,21 +88,143 @@ head(env.data) # merging TempData automatically
 
 **Hands-on 5: consider maize and sugarcane. What changes?**
 
-**Hands-on 6: plot the GDD and FRUE across the time interval. What conclusions can be made?**
+**Hands-on 6: plot the GDD and FRUE across the time interval. What conclusions can you make?**
 
 ## param_radiation: basic variables related to solar incidence and day length
 
 The function called param_radiation() is available to compute additional radiation-based variables that can be useful for plant breeders and researchers in several fields of agricultural research (e.g., agrometeorology). These parameters include the actual duration of sunshine hours (n, in hours) and total daylength (N, in hours), both estimated according to the altitude and latitude of the site, time of year (Julian day, from 1 to 365), and cloudiness (for n). Solar radiation is important factor in most computations of crop evapotranspiration (Allen et al., 1998) and biomass production (Muchow et al., 1990; Muchow and Sinclair, 1991). More details about those equations are given in ecophysiology and evapotranspiration literature (abovementioned Allen et al., 1998; Soltani and Sinclair, 2012).
 The arguments of param_radiation are: env.data and merge, in which merge denotes if the computed radiation parameters must be merged with the env.data set (merge = TRUE, by default).
 
+**Example**
+
+```{r, eval=FALSE}
+RadData = param_radiation(env.data = env.data) 
+head(RadData)
+env.data = param_radiation(env.data = env.data,merge = TRUE)
+```
 
 ## param_atmospheric: basic variables related to the atmospheric demands
 
 We implemented the param_atmospheric() function to run basic computations of atmospheric demands. This function has 11 arguments: env.data; PREC (rainfall precipitation in mm, default is PREC=’PRECTOT’); Tdew (dew point temperature in °C, default is Tdew=’T2M_DEW’); Tmax (maximum air temperature in °C, default is Tmax=’T2M_MAX’); Tmin (minimum air temperature in °C, default is Tmin=’T2M_MIN’); RH (relative air humidity %, default is RH=’RH2M’); Rad (net radiation, in MJ m-2 day-1, default is Rad =’Srad’); alpha (empirical constant accounting for vapor deficit and canopy resistance values, default is alpha=1.26); Alt (altitude, in meters above sea level, default is Alt = ALT); G (soil heat flux in W m-2, default is G=0); and merge (default is merge=TRUE). 
 
 
+**Example**
+
+```{r, eval=FALSE}
+AtmData  = param_atmospheric(env.data = env.data, Alt = 1628) 
+head(AtmData)
+env.data = param_atmospheric(env.data = env.data, Alt = 1628,merge = TRUE)
+env.data = param_atmospheric(env.data = env.data, merge = TRUE)
+head(env.data)
+```
+
+**Hands-on 6: plot the RTA and VPD across the time interval. What conclusions can you make?**
+
 ## summaryWTH: summarizing raw-data
 
-A basic data summary of the outputs from the get_weather function is done by the summaryWTH() function. This function has 10 arguments (env.data, id.names, env.id, days.id, var.id, statistic, probs, by.interval, time.window, and names.window). The common arguments with extract_GIS have the same described utility. Other identification columns (year, location, management, responsible researcher, etc.) may be indicated in the id.names argument, e.g., id.names = c(‘year’,’location’,’treatment’).
+A basic data summary of the outputs from the get_weather function is done by the summaryWTH() function. This function has 10 arguments (env.data, id.names, env.id, days.id, var.id, statistic, probs, by.interval, time.window, and names.window). The common arguments with extract_GIS have the same described utility. Other identification columns (year, location, management, responsible researcher, etc.) may be indicated in the id.names argument, e.g., id.names = c(‘year’,’location’,’treatment’)
+
+```{r, eval=FALSE}
+summaryWTH(env.data = env.data, env.id = 'env', days.id = 'daysFromStart',statistic = 'mean')
+summaryWTH(env.data = env.data) # by default
+```
+
+**Hands-on 7: what happens if we use quantiles? or define time intervals?**
+
+**Hands-on: the final challenge**
+
+Collect T2M data, and then process for soybean in the following places and time windows: Goiânia (Brazil, 16.67 S, 49.25 W, from March 15th, 2020 to April 04th, 2020); Texcoco (Mexico, 19.25 N, 99.50 W, from May 15th, 2019 to June 15th, 2019); Brisbane (Australia, 27.47 S, 153.02 E, from September 15th, 2018 to October 04th, 2018); Montpellier (France, 43.61 N, 3.81 E, from June 18th, 2017 to July 18th, 2017); Los Baños (the Philippines, 14.170 N, 121.431 E, from May 18th, 2017 to June 18th, 2017); Porto-Novo (Benin, 6.294 N, 2.361 E, from July 18th, 2016 to August 18th, 2016), Cali (Colombia, 3.261 N, 76.312 W, from November 18th, 2017 to December 18th, 2017); Palmas (Brazil, 10.168 S, 48.331 W, from December 18th, 2017 to January 18th, 2018);
 
 
+**Example of running multiple scenarios (common way and with parallelization)**
+
+
+```{r, eval=FALSE}
+
+
+env = c('GOI','TEX','BRI','MON','LOS','PON','CAL','PAL')
+lat = c(-16.67,19.25,-27.47,43.61,14.170,6.294,3.261,-10.168)
+lon = c(-49.25,-99.50,153.02,3.87,121.241,2.361,-76.312,-48.331)
+cou = c('BRA','MEX','AUS','FRA','PHL','BEN','COL','BRA')
+start = c('2020-03-15','2019-05-15','2018-09-15',
+          '2017-06-18','2017-05-18','2016-07-18',
+          '2017-11-18','2017-12-18')
+end = c('2020-04-15','2019-06-15','2018-10-15',
+        '2017-07-18','2017-06-18','2016-08-18',
+        '2017-12-18','2018-01-18')
+
+
+require(foreach)
+
+# current way (ok, I agree that is slow, specially for A LARGE NUMBER of environments)
+env.data = get_weather(env.id = env, lat = lat, lon = lon, start.day = start, end.day = end)
+head(env.data)
+
+require(doParallel)
+require(foreach)
+
+cl <- makeCluster(3) # number of clusters
+registerDoParallel(cl)
+
+myData = foreach(ENV = 1:length(env), .combine = "rbind") %dopar%
+  {
+    cat(paste0('doing....',env[ENV],'\n'))
+    myEnvData = EnvRtype::get_weather(
+                            env.id     = env  [ENV], 
+                             lat       = lat  [ENV], 
+                             lon       = lon  [ENV], 
+                             start.day = start[ENV], 
+                             end.day   = end  [ENV],
+                             country   = cou  [ENV]
+                             
+                            )
+    
+    return(myEnvData)
+    
+  }
+
+stopCluster(cl)
+
+head(myData)
+
+```
+
+**Example for GEMS study group (maize in Sergipe, Brazil) **
+
+```{r, eval=FALSE}
+sites    = c('Nossa Senhora da Gloria','Caninde do Sao Francisco',
+             'Gararu','Monte Alegre','Nossa Senhora de Lourdes',
+             'Poco Redondo','Porto da Folha')
+latitudes  = c(-10.217,-9.642,-9.967,-10.027,-10.320,-9.798,-9.909)
+longitudes = c(-37.424,-37.788,-37.090,-37.558,-36.578,-37.6903,-37.278)
+
+start = c('2020-03-15','2019-05-15','2018-09-15',
+          '2017-06-18','2017-05-18','2016-07-18',
+          '2017-11-18','2017-12-18')
+end = c('2020-04-15','2019-06-15','2018-10-15',
+        '2017-07-18','2017-06-18','2016-08-18',
+        '2017-12-18','2018-01-18')
+
+
+require(foreach)
+gems.data = foreach(ENV = 1:length(sites), .combine = "rbind") %dopar%
+  {
+
+    myEnvData = get_weather(
+      env.id    = sites      [ENV], 
+      lat       = latitudes  [ENV], 
+      lon       = longitudes [ENV], 
+     # start.day = start[ENV], 
+    #  end.day   = end  [ENV],
+      country   = 'BRA'
+      
+    )
+    
+    return(myEnvData)
+    
+  }
+
+head(gems.data)
+```
+
+**hands-on: now adapt it for your planting dates....**
