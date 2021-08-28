@@ -4,10 +4,30 @@ Envirotyping is a technique used to unfold the non-genetic drivers associated wi
 
 # Software
 
+Installation can be done using the install_git function from the devtools package, such as:
+
 ```{r, eval=FALSE}
 library(devtools)
 install_github('allogamous/EnvRtype')
 library(EnvRtype)
 ```
 
+One way to use the package is through source() within your R environment, such as:
 
+```{r, eval=FALSE}
+
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/AtmosphericPAram.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/SradPARAM.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/SupportFUnction.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/EnvTyping.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/Wmatrix.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/covfromraster.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/envKernel.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/gdd.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/getGEenriched.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/get_weather_gis.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/processWTH.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/met_kernel_model.R')
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/summary_weather.R')
+```
+ok, it is ugly, but solves it.
