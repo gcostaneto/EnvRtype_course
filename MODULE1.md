@@ -1,6 +1,7 @@
 # MODULE 1 - Remote Environmental Sensing (and its implications)
 
 EnvRtype version 1.0.0 (August 2021)
+Author: G.Costa-Neto
 
 ## Overview
 
