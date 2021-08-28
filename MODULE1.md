@@ -21,14 +21,54 @@ All weather information is given on a daily basis. Altitude (ALT) information is
 
 Details about the computation of the variables can be found at: [Costa-Neto et al. (2021)](https://github.com/gcostaneto/GEMS_R/blob/main/References/Conceptual%20papers/Costa-Neto%20et%20al%202020%20EnvRtype%20a%20software%20to%20interplay%20enviromics%20and%20quantitative%20genomics%20in%20agriculture.pdf) Soltani and Sinclair (2012) and [FAO-boletin](http://www.fao.org/3/x0490e/x0490e04.htm)
 
+**Example** Nairobi, Kenya (latitude 1.367 N, longitude 36.834 E) from 01 march 2015 to 01 April 2015. 
+
+Use decimal values for the coordinates (negative for west and south). Use year-month-day structure for date values (YYYY-MM-DD).
+
+```{r, eval=FALSE}
+require(EnvRtype)
+env.data = get_weather(env.id = 'NAIROBI',country = 'KEN',
+                       lat = -1.367,lon = 36.834,
+                       start.day = '2015-03-01',end.day = '2015-04-01')
+
+head(env.data)
+```
+
+**Hands-on 1: download the date for Nairobi in different years and time windows. Try to remove country = 'KEN' and see what happens**
+
+**Hands-on 2: use different lat and lon also for Kenya. See what happens. **
+
 ## get_soil: collection of soil data from SoilGrids
 
-Currently under development (for EnvRtype v 1.0.1). For now, please use SoilGrids (https://soilgrids.org/) followed by extract_GIS (example below)
+Currently under development (for EnvRtype v 1.0.1). For now, please use SoilGrids (https://soilgrids.org/) followed by extract_GIS (example below).
+I went into SoilGrids and download the clay information for the layer 5-15 cm, also for Nairobi. It is a raster file. 
+
 
 ## extract_GIS : point estimates from a raster file (GIS-based raster files)
 
 The function extract_GIS can be useful for collecting covariables from raster files within databases such as WorldClim (Fick et al., 2017; https://www.worldclim.org/), SoilGrids (https://soilgrids.org/), ClimateSERV ( https://climateserv.servirglobal.net/), EarthMaps (https://earthmap.org/) and Nasa Power (https://power.larc.nasa.gov). 
 
+```{r, eval=FALSE}
+data("clay_5_15")
+env.data = extract_GIS(covraster = clay_5_15,name.out = 'clay_5_15',env.data = env.data)
+head(env.data)
+```
+If you want to name the clay variable into a different manner...
+```{r, eval=FALSE}
+env.data = extract_GIS(covraster = clay_5_15,name.out = 'clay_any_name_you_want',env.data = env.data)
+head(env.data)
+```
+**Hands-on 3: go to SoilGrids and download other soil attributes. Save at your directory folder, import to R using yourRasterName = raster("NameOfTheAttribute.tiff")**
+
+**Hands-on 4: go to ClimateSERV and download rainfall data for Kenya. Then do as the same you have done for clay data**
+
+PLOS: using raster::getData to download bioclimatic variables and future climate data (CMIP5). Then, try to use extract_GIS for gather this data for Kenya.
+
+```{r, eval=FALSE}
+getData('worldclim', var='tmin', res=0.5, lon=36.834, lat=-1.367) # temperature min (average across years)
+getData('worldclim', var='bio', res=10) # bioclimatic variables
+getData('CMIP5', var='tmin', res=10, rcp=85, model='AC', year=70) # different scenarios (see https://www.worldclim.org/)
+```
 
 ## param_temperature: computing growing degree-days and generic temperature-stress factors
 
@@ -36,6 +76,19 @@ EnvRtype provides the param_temperature function, which computes additional ther
 Thus, the param_temperature() function has eight arguments (env.data, Tmax, Tmin, Tbase1, Tbase2, Topt1, Topt2 and merge). To run this function with data sources other than get_weather(), it is necessary to indicate which columns denote maximum air temperature (Tmax, default is Tmax = ‘T2M_MAX’) and minimum air temperature (Tmin, default is Tmin = ‘T2M_MIN’) (BOX 6 of Costa-Neto et al. 2021). The cardinal temperatures must follow the processes provided in the previously described ecophysiology literature (Soltani and Sinclar, 2012), such as:
 
 <img align="center" src="https://github.com/allogamous/EnvRtype/blob/master/fig/cardinals.png" width="90%" height="90%">
+
+**Example** Consider the estimations for dry beans at the same location in Nairobi, Kenya 
+
+```{r, eval=FALSE}
+TempData = param_temperature(env.data = env.data,Tbase1 = 8,Tbase2 = 45,Topt1 = 30,Topt2 = 35)
+head(TempData)
+env.data = param_temperature(env.data = env.data,Tbase1 = 8,Tbase2 = 45,Topt1 = 30,Topt2 = 35,merge = TRUE)
+head(env.data) # merging TempData automatically
+```
+
+**Hands-on 5: consider maize and sugarcane. What changes?**
+
+**Hands-on 6: plot the GDD and FRUE across the time interval. What conclusions can be made?**
 
 ## param_radiation: basic variables related to solar incidence and day length
 
