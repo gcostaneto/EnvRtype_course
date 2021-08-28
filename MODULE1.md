@@ -14,7 +14,7 @@ EnvRtype implements the remote collection of daily weather and elevation data by
 
 All weather information is given on a daily basis. Altitude (ALT) information is provided by SRTM 90 m resolution and can be collected from any place between -60 and 60 latitudes. This information is presented as a data.frame class output in R. It is possible to download data for several environments by country.
 
-<img align="center" src="https://github.com/allogamous/EnvRtype/blob/master/fig/variables.png" width="60%" height="60%">
+<img align="center" src="https://github.com/allogamous/EnvRtype/blob/master/fig/variables.png" width="90%" height="90%">
 
 
 ## extract_GIS : point estimates from a raster file (GIS-based raster files)
