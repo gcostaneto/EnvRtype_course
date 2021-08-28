@@ -15,5 +15,5 @@ The processed environmental information can then be used for many purposes. In M
 
 
 
-## env_typing: environmental typologies and its frequencies across time and space (METs or TPEs)
+## env_typing: environmental typologies and its frequencies across time and space
 
