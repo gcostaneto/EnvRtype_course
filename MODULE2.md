@@ -69,6 +69,12 @@ env.data = get_weather(env.id = 'LOSBANOS',country = 'PHL',
 
 card = list(T2M=c(0,8,15,28,40,45,Inf)) # a list of vectors containing empirical and cardinal thresholds
 env_typing(env.data = env.data,env.id = 'env', var.id = 'T2M', cardinals = card)
+
+
+data("maizeWTH")   # toy set of environmental data
+card = list(T2M=c(0,8,15,28,40,45,Inf)) # a list of vectors containing empirical and cardinal thresholds
+env_typing(env.data = maizeWTH,env.id = 'env', var.id = 'T2M', cardinals = card)
+
 ```
 
 **hands-on: run the same analysis involving Nairobi (Kenya) and other city of your preference**
@@ -88,6 +94,10 @@ env.data = get_weather(env.id = 'LOSBANOS',country = 'PHL',
                        start.day = '2000-03-01',end.day = '2020-03-01')
 card = list(PRECTOT = c(0,5,10,25,50,75,90), T2MDEW = NULL) # cardinals and data-driven limits
 env_typing(env.data = env.data,env.id = 'env', var.id = var, cardinals = card)
+
+data("maizeWTH")   # toy set of environmental data
+card = list(T2M=c(0,8,15,28,40,45,Inf)) # a list of vectors containing empirical and cardinal thresholds
+env_typing(env.data = maizeWTH,env.id = 'env', var.id = var, cardinals = card)
 ```
 
 **Hands-on: master challenge**
