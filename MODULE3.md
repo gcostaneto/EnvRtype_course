@@ -20,7 +20,116 @@ The get_kernel function has four main arguments: a list of genomic relationship 
 Each genomic kernel in K_G must have the dimension of p × p genotypes. This argument assumes K_G = NULL by default. If no structure for genetic effects is provided, the get_kernel function automatically assumes an identity matrix for genotype effects, in which it considers no relatedness among individuals. Finally, the argument stage (stage = NULL by default) states which development stages can be used to create stage-specific enviromic kernels. More detail about the latter is given in the Example 3 of the Results section.
 In the same manner, K_E could have the dimension of q × q environments, but the environmental kernels can be built at the phenotypic observation level in some cases. It means that for each genotype in each environment, there is a different EC, according to particular phenology stages or envirotyping at the plant level. Thus, using the additional argument dimension_KE = c(‘q’, ‘n’) (default is ‘q’, for environment), the K_E may accomplish a kernel with n × n, in which n = pq. 
 
+**Example: implementing different models**
+
+```{r, eval=FALSE}
+data("maizeYield") # toy set of phenotype data (grain yield per environment)
+data("maizeG"    ) # toy set of genomic relationship for additive effects 
+data("maizeWTH")   # toy set of environmental data
+y   = "value"      # name of the vector of phenotypes
+gid = "gid"        # name of the vector of genotypes
+env = "env"        # name of the vector of environments
+
+ECs  = W_matrix(env.data = maizeWTH, var.id = c("FRUE",'SVP',"n","T2M_MAX"),statistic = 'mean')
+## KG and KE might be a list of kernels
+KE = list(W = env_kernel(env.data = ECs)[[2]])
+KG = list(G=maizeG);
+## Creating kernel models with get_kernel
+MM    = get_kernel(K_G = KG, y = y,gid = gid,env = env, data = maizeYield,model = "MM") 
+MDs   = get_kernel(K_G = KG, y = y,gid = gid,env = env,  data = maizeYield, model = "MDs") 
+EMM   = get_kernel(K_G = KG, K_E = KE, y = y,gid = gid,env = env,  data = maizeYield, model = "EMM") 
+EMDs  = get_kernel(K_G = KG, K_E = KE, y = y,gid = gid,env = env,  data = maizeYield, model = "EMDs") 
+RMMM  = get_kernel(K_G = KG, K_E = KE, y = y,gid = gid,env = env,  data = maizeYield, model = "RNMM") 
+RNMDs = get_kernel(K_G = KG, K_E = KE, y = y,gid = gid,env = env,  data = maizeYield, model = "RNMDs") 
+```
+**hands-on question** what really changes between each model?
+
 ## kernel_model: running a hierarchical bayesian approach for phenotype prediction
 
 Details about the algoritm used in the EnvRtype::kernel_model() is given in [Granato et al 2018](https://academic.oup.com/g3journal/article/8/9/3039/6027023) and [Costa-Neto et al (2021)](https://www.nature.com/articles/s41437-020-00353-1). The function has four main arguments: a phenotypic MET data set (data), composed of a vector of environment identification (env), a vector of genotype identification (gid), and a vector of trait values (y), a list object for random effects (random, from get_kernel) and a matrix for fixed effects (fixed). For the Hierarchical Bayesian Modeling (see Appendix 1), the arguments for number of iterations (iterations, default is 1000) and the number of samples used for burn-in (burnin, default is 200) and thining (thining, default is 10) must be provided. The function has two main outputs: the predicted phenotypes (yHat), variance components for each random effect (VarComp) -- with its confidence intervals.
+
+**Step 1: create your W_matrix (or env_typing)**
+
+```{r, eval=FALSE}
+data("maizeYield") # toy set of phenotype data (grain yield per environment)
+data("maizeG"    ) # toy set of genomic relationship for additive effects 
+data("maizeWTH")   # toy set of environmental data
+y   = "value"      # name of the vector of phenotypes
+gid = "gid"        # name of the vector of genotypes
+env = "env"        # name of the vector of environments
+
+### 1- Environmental Covariables (ECs)
+stages    = c('VE','V1_V6','V6_VT','VT_R1','R1_R3','R3_R6',"H")
+interval  = c(0,7,30,65,70,84,105)
+EC1  = W_matrix(env.data = maizeWTH, var.id = 'FRUE')
+EC2  = W_matrix(env.data = maizeWTH, var.id = 'SVP')
+EC3  = W_matrix(env.data = maizeWTH, var.id = c('FRUE','SVP'))
+EC4  = W_matrix(env.data = maizeWTH, var.id = 'FRUE',
+                by.interval = T,time.window = interval,names.window = stages)
+EC5  = W_matrix(env.data = maizeWTH, var.id = 'SVP',
+                by.interval = T,time.window = interval,names.window = stages)
+EC6  = W_matrix(env.data = maizeWTH, var.id = c('FRUE','SVP'),
+                by.interval = T,time.window = interval,names.window = stages)
+
+```
+
+**Step 2: prepare the kernels (genomics and enviromics)**
+
+```{r, eval=FALSE}
+
+# create the environmental relatedness
+K1 = list(FRUE = env_kernel(env.data = EC1)[[2]])
+K2 = list(PETP = env_kernel(env.data = EC2)[[2]])
+K3 = list(FRUE_PETP = env_kernel(env.data = EC3)[[2]])
+K4 = list(FRUE = env_kernel(env.data = EC4)[[2]])
+K5 = list(PETP = env_kernel(env.data = EC5)[[2]])
+K6 = list(FRUE_PETP = env_kernel(env.data = EC6)[[2]])
+
+# and then adjust the kernels for running kernel_models
+M0  = get_kernel(K_G = KG,  y = y,gid = gid,env = env,  data = maizeYield, model = "MDs") 
+M1  = get_kernel(K_G = KG, K_E = K1, y = y,gid = gid,env = env,  data = maizeYield, model = "RNMDs") 
+M2  = get_kernel(K_G = KG, K_E = K2, y = y,gid = gid,env = env,  data = maizeYield, model = "RNMDs") 
+M3  = get_kernel(K_G = KG, K_E = K3, y = y,gid = gid,env = env,  data = maizeYield, model = "RNMDs") 
+M4  = get_kernel(K_G = KG, K_E = K4, y = y,gid = gid,env = env,  data = maizeYield, model = "RNMDs") 
+M5  = get_kernel(K_G = KG, K_E = K5, y = y,gid = gid,env = env,  data = maizeYield, model = "RNMDs") 
+M6  = get_kernel(K_G = KG, K_E = K6, y = y,gid = gid,env = env,  data = maizeYield, model = "RNMDs") 
+
+```
+
+
+
+**Step 3: run your kernel_model**
+
+```{r, eval=FALSE}
+fixed = model.matrix(~0+env,maizeWTH)
+
+iter = 1000
+burn = 500
+seed = 78172
+thin = 10
+model = paste0('M',0:6)
+Models = list(M0,M1,M2,M3,M4,M5,M6)
+Vcomp <- c()
+for(MODEL in 1:length(Models)){
+  set.seed(seed)
+  fit <- kernel_model(data = maizeYield,y = y,env = env,gid = gid,
+                      random = Models[[MODEL]],fixed = Z_E,
+                      iterations = iter,burnin = burn,thining = thin)
+  
+  Vcomp <- rbind(Vcomp,data.frame(fit$VarComp,Model=model[MODEL]))
+}
+
+Vcomp
+
+```
+
+**hands-on: now use gaussian kernel and check the results**
+
+**hands-on: try the following models - MM, EMM, RNMM
+
+**hands-on: try a different seed. Why the results are different?**
+
+**hands-on: try a larger number of iterations**
+
+**hands-on: implement a cross-validation scheme manually. What is your hypothesis?**
 
