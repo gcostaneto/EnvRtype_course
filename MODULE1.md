@@ -1,5 +1,7 @@
 # MODULE 1 - Remote Environmental Sensing (and its implications)
 
+EnvRtype version 1.0.0 (August 2021)
+
 ## Overview
 
 Module 1 starts by collecting raw environmental data from public platforms, such as a satellite-based weather system named ‘NASA’s Prediction of Worldwide Energy Resources’ (NASA POWER, https://power.larc.nasa.gov/), which can access information daily anywhere on earth. This database is well consolidated and validated for use in several research fields, including crop modeling in agricultural research (White et al., 2011; Monteiro et al., 2018; Aboelkhair et al., 2019). Details about resolution and validation of this data source are given in https://power.larc.nasa.gov/docs/methodology/validation/. 
