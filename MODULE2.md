@@ -11,9 +11,9 @@ The processed environmental information can then be used for many purposes. In M
 
   2)	Gathering environmental covariables (hereafter abbreviated as ECs) from point-estimates (e.g., mean air temperature, cumulative rainfall). These ECs can be used for many purposes, from a basic interpretation of G×E to estimating gene-environment interactions. At the end of this process, a matrix of ECs (W) is created and integrated with tools from Module 3.
 
-## W_matrix: a matrix of environmental covariables by environment (or genotype-environment entries)
+## W_matrix: environmental covariables by environment (or genotype-environment entries)
 
 
 
-## env_typing: a matrix of environmental typologies and its frequencies across time and space (METs or TPEs)
+## env_typing: environmental typologies and its frequencies across time and space (METs or TPEs)
 
