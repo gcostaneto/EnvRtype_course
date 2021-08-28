@@ -64,13 +64,13 @@ env = "env"        # name of the vector of environments
 stages    = c('VE','V1_V6','V6_VT','VT_R1','R1_R3','R3_R6',"H")
 interval  = c(0,7,30,65,70,84,105)
 EC1  = W_matrix(env.data = maizeWTH, var.id = 'FRUE')
-EC2  = W_matrix(env.data = maizeWTH, var.id = 'SVP')
-EC3  = W_matrix(env.data = maizeWTH, var.id = c('FRUE','SVP'))
+EC2  = W_matrix(env.data = maizeWTH, var.id = 'SPV')
+EC3  = W_matrix(env.data = maizeWTH, var.id = c('FRUE','SPV'))
 EC4  = W_matrix(env.data = maizeWTH, var.id = 'FRUE',
                 by.interval = T,time.window = interval,names.window = stages)
-EC5  = W_matrix(env.data = maizeWTH, var.id = 'SVP',
+EC5  = W_matrix(env.data = maizeWTH, var.id = 'SPV',
                 by.interval = T,time.window = interval,names.window = stages)
-EC6  = W_matrix(env.data = maizeWTH, var.id = c('FRUE','SVP'),
+EC6  = W_matrix(env.data = maizeWTH, var.id = c('FRUE','SPV'),
                 by.interval = T,time.window = interval,names.window = stages)
 
 ```
