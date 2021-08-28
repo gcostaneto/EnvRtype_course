@@ -189,7 +189,7 @@ head(myData)
 
 ```
 
-**Example for GEMS study group (maize in Sergipe, Brazil**
+**Example for GEMS study group (maize in Sergipe, Brazil)**
 
 
 ```{r, eval=FALSE}
@@ -228,4 +228,4 @@ gems.data = foreach(ENV = 1:length(sites), .combine = "rbind") %dopar%
 head(gems.data)
 ```
 
-**hands-on: now adapt it for your planting dates....**
+**hands-on: now adapt it for your planting dates, crop, motivations....**
