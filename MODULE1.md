@@ -6,8 +6,14 @@ Module 1 starts by collecting raw environmental data from public platforms, such
 Data collection may span existing experimental trials (single sampling trials) or historical trends for a given location × planting date arrangement. This module gathers the functions for remote data collection of daily weather and elevation data, as well as the computation of ecophysiological variables, such as the effect of air temperature on radiation use efficiency. The module includes a toolbox with ‘Remote Data Collection’ and ‘Data Processing’ steps, both designed to help researchers find a viable alternative for expensive in-field environmental sensing equipment. 
 
 
+## get_weather : collects weather and elevation data worldwide (1981-present)
 
 EnvRtype implements the remote collection of daily weather and elevation data by the get_weather function. This function has the following arguments: the environment name (env.id); geographic coordinates (latitude, lat; longitude, lon) in WGS84; time interval (start.day and end.day, given in ‘year-month-day’); and country identification (country), which sets the raster file of elevation for the region of a specific country. Countries are specified by their 3-letter ISO codes:
 
 <img align="center" src="https://github.com/allogamous/EnvRtype/blob/master/fig/ISO3.png" width="60%" height="60%">
 
+All weather information is given on a daily basis. Altitude (ALT) information is provided by SRTM 90 m resolution and can be collected from any place between -60 and 60 latitudes. This information is presented as a data.frame class output in R. It is possible to download data for several environments by country.
+
+## extract_GIS : point estimates from a raster file (GIS-based raster files)
+
+The function extract_GIS can be useful for collecting covariables from raster files within databases such as WorldClim (Fick et al., 2017; https://www.worldclim.org/), SoilGrids (https://soilgrids.org/), ClimateSERV ( https://climateserv.servirglobal.net/), EarthMaps (https://earthmap.org/) and Nasa Power (https://power.larc.nasa.gov). 
