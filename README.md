@@ -39,7 +39,7 @@ source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/summary_w
 ok, it is ugly, but solves it.
 
 
-Some useful packages for our hands-on
+**Some useful packages for our hands-on**
 
 ```{r, eval=FALSE}
 source("https://raw.githubusercontent.com/gcostaneto/Funcoes_naive/master/instpackage.R")
