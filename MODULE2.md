@@ -23,7 +23,7 @@ The processed environmental information can then be used for many purposes. In M
 Currently under development (for EnvRtype v 1.0.1, November 2021). Aims to associate the W matrix with phenotypic data, using factorial regression, partial least squares or GAM.
 
 
-## env_group: Grouping environments according to its diversity
+## env_group: grouping environments according to its diversity
 
 Currently under development (for EnvRtype v 1.0.1, November 2021). Aims to use T matrix (typologies) or W matrix for grouping environments with shared similarity
 
