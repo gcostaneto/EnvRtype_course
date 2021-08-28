@@ -17,3 +17,7 @@ The processed environmental information can then be used for many purposes. In M
 
 ## env_typing: environmental typologies and its frequencies across time and space
 
+
+## Example 1: interpreting GE or G+GE interactions in field trials
+
+## Example 2: Grouping environments
