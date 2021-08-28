@@ -189,7 +189,8 @@ head(myData)
 
 ```
 
-**Example for GEMS study group (maize in Sergipe, Brazil) **
+**Example for GEMS study group (maize in Sergipe, Brazil**
+
 
 ```{r, eval=FALSE}
 sites    = c('Nossa Senhora da Gloria','Caninde do Sao Francisco',
