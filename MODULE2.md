@@ -18,6 +18,12 @@ The processed environmental information can then be used for many purposes. In M
 ## env_typing: environmental typologies and its frequencies across time and space
 
 
-## Example 1: interpreting GE or G+GE interactions in field trials
+## env_association: interpreting GE or G+GE interactions in field trials
 
-## Example 2: Grouping environments
+Currently under development (for EnvRtype v 1.0.1, November 2021). Aims to associate the W matrix with phenotypic data, using factorial regression, partial least squares or GAM.
+
+
+## env_group: Grouping environments according to its diversity
+
+Currently under development (for EnvRtype v 1.0.1, November 2021). Aims to use T matrix (typologies) or W matrix for grouping environments with shared similarity
+
