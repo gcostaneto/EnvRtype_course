@@ -18,7 +18,7 @@ The processed environmental information can then be used for many purposes. In M
 ## env_typing: environmental typologies and its frequencies across time and space
 
 
-## env_association: bilinear models (GE, G+GE,E+GE,E+G+GE) for MET-specific reaction-norm analysis
+## env_association: bilinear models (GE, G+GE,E+GE,E+G+GE) for MET-specific reaction-norm
 
 Currently under development (for EnvRtype v 1.0.1, November 2021). Aims to associate the W matrix with phenotypic data, using factorial regression, partial least squares or GAM.
 
