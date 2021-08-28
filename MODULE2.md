@@ -82,11 +82,11 @@ env_typing(env.data = env.data,env.id = 'env', var.id = 'T2M', cardinals = card)
 **Example** Basic use of env_typing for more than one variable
 
 ```{r, eval=FALSE}
-var = c("PRECTOT", "T2MDEW") # variables
+var = c("RH2M", "T2MDEW") # variables
 env.data = get_weather(env.id = 'LOSBANOS',country = 'PHL',
                        lat = 14.170,lon = 121.241,variables.names = var,
                        start.day = '2000-03-01',end.day = '2020-03-01')
-card = list(PRECTOT = c(0,5,10,25,40,100), T2MDEW = NULL) # cardinals and data-driven limits
+card = list(PRECTOT = c(0,5,10,25,50,75,90), T2MDEW = NULL) # cardinals and data-driven limits
 env_typing(env.data = env.data,env.id = 'env', var.id = var, cardinals = card)
 ```
 
