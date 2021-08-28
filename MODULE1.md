@@ -114,6 +114,7 @@ We implemented the param_atmospheric() function to run basic computations of atm
 AtmData  = param_atmospheric(env.data = env.data, Alt = 1628) 
 head(AtmData)
 env.data = param_atmospheric(env.data = env.data, Alt = 1628,merge = TRUE)
+# or
 env.data = param_atmospheric(env.data = env.data, merge = TRUE)
 head(env.data)
 ```
