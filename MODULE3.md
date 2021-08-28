@@ -16,6 +16,8 @@ The env_kernel function has two outputs called varCov (relatedness among covaria
 
 The get_kernel function has four main arguments: a list of genomic relationship kernels (K_G); a list of environmental relationship kernels (K_E); and a phenotypic MET data set (data), composed of a vector of environment identification (env), a vector of genotype identification (gid), and a vector of trait values (y); at last, the model argument sets the statistical model used (‘MM,' ‘MDs’, ‘EMM’, ‘EMDs’, ‘RNMM’ and ‘RNMDs’). The assumptions of genetics (G), environment (E) and GE effects for each one of those models is given below:
 
+<img align="center" src="https://github.com/allogamous/EnvRtype/blob/master/fig/models.png" width="90%" height="90%">
+
 
 Each genomic kernel in K_G must have the dimension of p × p genotypes. This argument assumes K_G = NULL by default. If no structure for genetic effects is provided, the get_kernel function automatically assumes an identity matrix for genotype effects, in which it considers no relatedness among individuals. Finally, the argument stage (stage = NULL by default) states which development stages can be used to create stage-specific enviromic kernels. More detail about the latter is given in the Example 3 of the Results section.
 In the same manner, K_E could have the dimension of q × q environments, but the environmental kernels can be built at the phenotypic observation level in some cases. It means that for each genotype in each environment, there is a different EC, according to particular phenology stages or envirotyping at the plant level. Thus, using the additional argument dimension_KE = c(‘q’, ‘n’) (default is ‘q’, for environment), the K_E may accomplish a kernel with n × n, in which n = pq. 
@@ -125,7 +127,7 @@ Vcomp
 
 **hands-on: now use gaussian kernel and check the results**
 
-**hands-on: try the following models - MM, EMM, RNMM
+**hands-on: try the following models - MM, EMM, RNMM**
 
 **hands-on: try a different seed. Why the results are different?**
 
