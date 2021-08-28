@@ -17,6 +17,42 @@ Aims to provide a quantitative descriptor matrix of the environment -- that is, 
 To implement these applications, the processed environmental data must be translated into quantitative descriptors by summarizing cumulative means, sums, or quantiles, such as in summaryWTH(). However, these data must be mean-centered and scaled to assume a normal distribution and avoid variations due to differences in scale dimensions. To create environmental similarity kernels, Costa-Neto et al. (2021a) suggested using quantile statistics to better describe each variable's distribution across the experimental network. Thus, this allows a statistical approximation of the environmental variables' ecophysiological importance during crop growth and development. In this context, we developed the W_matrix() function to create a double-entry table (environments/sites/years environmental factors). Contrary to env_typing(), the W_matrix() function was designed to sample each environmental factor's quantitative values across different environments. 
 The same arguments for the functions summaryWTH() and env_typing() are applicable (env.data, id.names, env.id, days.id var.id, statistic, by.interval, time.window, and names.window). However, in W_matrix(), arguments center = TRUE (by default) and scale = TRUE (by default) denote mean-centered (w-w ̅) and scaled ((w-w ̅)⁄σ), in which w is the original variable, w ̅ and σ are the mean and standard deviation of this covariable across the environments. Quality control (QC = TRUE argument) is done by removing covariables with more than  σ_TOL±  σ, where σ_TOL is the tolerance limit for standard deviation, settled by default argument as sd.tol = 3.
 
+**Example** Computing W_matrix for a multi-environment maize data
+```{r, eval=FALSE}
+data("maizeWTH") # toy set of environmental data
+var = c("SVP", "T2MDEW", "T2M_MAX", "T2M_MIN") # variables
+W = W_matrix(env.data = maizeWTH[maizeWTH$daysFromStart < 100,],
+             var.id=var, statistic="mean", by.interval=TRUE)
+dim(W)
+```
+
+**Example** W_matrix for single or multiple covariables
+
+```{r, eval=FALSE}
+data("maizeYield") # toy set of phenotype data (grain yield per environment)
+data("maizeG"    ) # toy set of genomic relationship for additive effects 
+data("maizeWTH")   # toy set of environmental data
+
+stages    = c('VE','V1_V6','V6_VT','VT_R1','R1_R3','R3_R6',"H")
+interval  = c(0,7,30,65,70,84,105) # in days after emergence
+EC1  = W_matrix(env.data = maizeWTH, var.id = 'FRUE')
+EC2  = W_matrix(env.data = maizeWTH, var.id = 'SVP')
+EC3  = W_matrix(env.data = maizeWTH, var.id = c('FRUE','SVP'))
+EC4  = W_matrix(env.data = maizeWTH, var.id = 'FRUE',
+                by.interval = T,time.window = interval,names.window = stages)
+EC5  = W_matrix(env.data = maizeWTH, var.id = 'T2MDEW',
+                by.interval = T,time.window = interval,names.window = stages)
+EC6  = W_matrix(env.data = maizeWTH, var.id = c('FRUE','T2MDEW'),
+                by.interval = T,time.window = interval,names.window = stages)
+                
+EC7  = W_matrix(env.data = maizeWTH, var.id = c('"T2M","T2M_MAX","T2M_MIN",
+                        "WS2M","RH2M","T2MDEW","ALLSKY_SFC_LW_DWN",
+                        "ALLSKY_SFC_SW_DWN"),
+                by.interval = T,time.window = interval,names.window = stages)
+                
+```
+                
+**hands-on: now using thermal time (GDD) to defone the time window of each development stage**
 
 ## env_typing: environmental typologies and its frequencies across time and space
 
@@ -35,7 +71,7 @@ card = list(T2M=c(0,8,15,28,40,45,Inf)) # a list of vectors containing empirical
 env_typing(env.data = env.data,env.id = 'env', var.id = 'T2M', cardinals = card)
 ```
 
-**hands-on: run the same analysis involving Nairobi (Kenya) and other city of your preference*
+**hands-on: run the same analysis involving Nairobi (Kenya) and other city of your preference**
 
 **hands-on: run the same analysis using FRUE variable**
 
@@ -53,6 +89,11 @@ env.data = get_weather(env.id = 'LOSBANOS',country = 'PHL',
 card = list(PRECTOT = c(0,5,10,25,40,100), T2MDEW = NULL) # cardinals and data-driven limits
 env_typing(env.data = env.data,env.id = 'env', var.id = var, cardinals = card)
 ```
+
+**Hands-on: master challenge**
+
+Collect VPD data, and then process the raw-data for maize in the following places and time windows: Goiânia (Brazil, 16.67 S, 49.25 W, from March 15th, 2020 to April 04th, 2020); Texcoco (Mexico, 19.25 N, 99.50 W, from May 15th, 2019 to June 15th, 2019); Brisbane (Australia, 27.47 S, 153.02 E, from September 15th, 2018 to October 04th, 2018); Montpellier (France, 43.61 N, 3.81 E, from June 18th, 2017 to July 18th, 2017); Los Baños (the Philippines, 14.170 N, 121.431 E, from May 18th, 2017 to June 18th, 2017); Porto-Novo (Benin, 6.294 N, 2.361 E, from July 18th, 2016 to August 18th, 2016), Cali (Colombia, 3.261 N, 76.312 W, from November 18th, 2017 to December 18th, 2017); Palmas (Brazil, 10.168 S, 48.331 W, from December 18th, 2017 to January 18th, 2018). Finally, run the typologies and plot it. Then, repeat everything using now the quantitative descriptors (W matrix).
+
 
 ## env_association: bilinear models (GE, G+GE,E+GE,E+G+GE) for MET-specific reaction-norm
 
