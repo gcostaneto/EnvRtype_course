@@ -37,9 +37,17 @@ Thus, the param_temperature() function has eight arguments (env.data, Tmax, Tmin
 
 ## param_radiation: basic variables related to solar incidence and day length
 
+The function called param_radiation() is available to compute additional radiation-based variables that can be useful for plant breeders and researchers in several fields of agricultural research (e.g., agrometeorology). These parameters include the actual duration of sunshine hours (n, in hours) and total daylength (N, in hours), both estimated according to the altitude and latitude of the site, time of year (Julian day, from 1 to 365), and cloudiness (for n). Solar radiation is important factor in most computations of crop evapotranspiration (Allen et al., 1998) and biomass production (Muchow et al., 1990; Muchow and Sinclair, 1991). More details about those equations are given in ecophysiology and evapotranspiration literature (abovementioned Allen et al., 1998; Soltani and Sinclair, 2012).
+The arguments of param_radiation are: env.data and merge, in which merge denotes if the computed radiation parameters must be merged with the env.data set (merge = TRUE, by default).
 
 
 ## param_atmospheric: basic variables related to the atmospheric demands
 
 We implemented the param_atmospheric() function to run basic computations of atmospheric demands. This function has 11 arguments: env.data; PREC (rainfall precipitation in mm, default is PREC=’PRECTOT’); Tdew (dew point temperature in °C, default is Tdew=’T2M_DEW’); Tmax (maximum air temperature in °C, default is Tmax=’T2M_MAX’); Tmin (minimum air temperature in °C, default is Tmin=’T2M_MIN’); RH (relative air humidity %, default is RH=’RH2M’); Rad (net radiation, in MJ m-2 day-1, default is Rad =’Srad’); alpha (empirical constant accounting for vapor deficit and canopy resistance values, default is alpha=1.26); Alt (altitude, in meters above sea level, default is Alt = ALT); G (soil heat flux in W m-2, default is G=0); and merge (default is merge=TRUE). 
+
+
+## Summarizing raw-data
+
+A basic data summary of the outputs from the get_weather function is done by the summaryWTH() function. This function has 10 arguments (env.data, id.names, env.id, days.id, var.id, statistic, probs, by.interval, time.window, and names.window). The common arguments with extract_GIS have the same described utility. Other identification columns (year, location, management, responsible researcher, etc.) may be indicated in the id.names argument, e.g., id.names = c(‘year’,’location’,’treatment’).
+
 
