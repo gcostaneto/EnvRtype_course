@@ -18,10 +18,13 @@ The processed environmental information can then be used for many purposes. In M
 ## env_typing: environmental typologies and its frequencies across time and space
 
 
-## env_association: interpreting GE or G+GE interactions in field trials
+## env_association: bilinear models (GE, G+GE,E+GE,E+G+GE) for MET-specific reaction-norm analysis
 
 Currently under development (for EnvRtype v 1.0.1, November 2021). Aims to associate the W matrix with phenotypic data, using factorial regression, partial least squares or GAM.
 
+## env_drivers: environmental drivers of the phenotypic correlations across METs
+
+Currently under development (for EnvRtype v 1.0.1, November 2021).
 
 ## env_group: grouping environments according to its diversity
 
