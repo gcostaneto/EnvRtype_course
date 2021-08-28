@@ -20,6 +20,39 @@ The same arguments for the functions summaryWTH() and env_typing() are applicabl
 
 ## env_typing: environmental typologies and its frequencies across time and space
 
+An environment can be viewed as the status of multiple resource inputs (e.g., water, radiation, nutrients) across a certain time interval (e.g., from sowing to harvesting) within a specific space or location. The quality of those environments is an end-result of the daily balance of resource availability, which can be described as a function of how many resources are available and how frequently those resources occur (e.g., transitory or constant effects). Also, the relationship between resource absorption and allocation depends on plant characteristics (e.g., phenology, current health status). Then, this particular environmental-plant influence is named after the envirotype to differentiate it from the concept of raw environmental data (data collected directly from sensors). It can be referred to as environmental type (ET). Finally, the typing of environments can be done by discovering ETs; the similarity among environments is a consequence of the number of ETs shared between environments.
+Before the computation of ETs, a first step was to develop a design based on ecophysiological concepts (e.g., plants' needs for some resource) or summarize the raw data from the core environments being analyzed. Then, for each ET we computed the frequency of occurrence, which represents the frequency of specific quantities of resources available for plant development. Typing by frequency of occurrence provides a deeper understanding of the distribution of events, such as rainfall distribution across different growing cycles and the occurrence of heat stress conditions in a target location (Heinemann et al. 2015). Thus, groups of environments can be better identified by analyzing the events occurring in a target location, year, or planting date. This step can be done not only by using grade point averages (e.g., accumulated sums or means for specific periods), but also by their historical similarity. In this way, we are able to not only group environments in the same year, but also through a historical series of years. Finally, this analysis deepens in resolution when the same environment is divided by time intervals, which can be fixed (e.g., 10-day intervals), or categorized by specific phenological stages of a specific crop.
+To implement envirotype profiling, we created the env_typing() function. This function computes the frequency of occurrence of each envirotype across diverse environments. This function has 12 arguments, nine of which (env.data, id.names, env.id, days.id var.id, statistic, by.interval, time.window, and names.window) work in the same way as already described in the previous functions. The argument cardinals are responsible for defining the biological thresholds between envirotypes and adaptation zones. These cardinals must respect the ecophysiological limits of each crop, germplasm, or region. For that, we suggest literature on ecophysiology and crop growth modeling, such as Soltani and Sinclar (2012). The argument cardinals can be filled out as vectors (for single-environmental factors) or as a list of vectors for each environmental factor considered in the analysis. 
+
+**Example** Basic use of env_typing for typing temperature in Los Baños, Philipines, from 2000 to 2020
+
+```{r, eval=FALSE}
+env.data = get_weather(env.id = 'LOSBANOS',country = 'PHL',
+                       lat = 14.170,lon = 121.241,variables.names = 'T2M',
+                       start.day = '2000-03-01',end.day = '2020-03-01')
+
+card = list(T2M=c(0,8,15,28,40,45,Inf)) # a list of vectors containing empirical and cardinal thresholds
+env_typing(env.data = env.data,env.id = 'env', var.id = 'T2M', cardinals = card)
+```
+
+**hands-on: run the same analysis involving Nairobi (Kenya) and other city of your preference*
+
+**hands-on: run the same analysis using FRUE variable**
+
+**hands-on: generate environments within LOS BANOS locations in different years (at least 5 environments). Then repeat the analysis**
+
+**hands-on: how can you plot this outputs? think about it**
+
+**Example** Basic use of env_typing for more than one variable
+
+```{r, eval=FALSE}
+var = c("PRECTOT", "T2MDEW") # variables
+env.data = get_weather(env.id = 'LOSBANOS',country = 'PHL',
+                       lat = 14.170,lon = 121.241,variables.names = var,
+                       start.day = '2000-03-01',end.day = '2020-03-01')
+card = list(PRECTOT = c(0,5,10,25,40,100), T2MDEW = NULL) # cardinals and data-driven limits
+env_typing(env.data = env.data,env.id = 'env', var.id = var, cardinals = card)
+```
 
 ## env_association: bilinear models (GE, G+GE,E+GE,E+G+GE) for MET-specific reaction-norm
 
