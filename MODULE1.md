@@ -46,7 +46,7 @@ The arguments of param_radiation are: env.data and merge, in which merge denotes
 We implemented the param_atmospheric() function to run basic computations of atmospheric demands. This function has 11 arguments: env.data; PREC (rainfall precipitation in mm, default is PREC=’PRECTOT’); Tdew (dew point temperature in °C, default is Tdew=’T2M_DEW’); Tmax (maximum air temperature in °C, default is Tmax=’T2M_MAX’); Tmin (minimum air temperature in °C, default is Tmin=’T2M_MIN’); RH (relative air humidity %, default is RH=’RH2M’); Rad (net radiation, in MJ m-2 day-1, default is Rad =’Srad’); alpha (empirical constant accounting for vapor deficit and canopy resistance values, default is alpha=1.26); Alt (altitude, in meters above sea level, default is Alt = ALT); G (soil heat flux in W m-2, default is G=0); and merge (default is merge=TRUE). 
 
 
-## Summarizing raw-data
+## summaryWTH: summarizing raw-data
 
 A basic data summary of the outputs from the get_weather function is done by the summaryWTH() function. This function has 10 arguments (env.data, id.names, env.id, days.id, var.id, statistic, probs, by.interval, time.window, and names.window). The common arguments with extract_GIS have the same described utility. Other identification columns (year, location, management, responsible researcher, etc.) may be indicated in the id.names argument, e.g., id.names = c(‘year’,’location’,’treatment’).
 
