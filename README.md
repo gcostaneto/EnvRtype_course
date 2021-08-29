@@ -48,10 +48,8 @@ inst.package(c("superheat","FactoMineR","tidyverse","ggplot2","reshape2","plyr")
 
 # Modules (and presentation)
 
-> [Presentation](https://github.com/gcostaneto/EnvRtype_course/blob/main/EnvRtype_lecture.pdf) 
+[MODULE 1](https://github.com/gcostaneto/EnvRtype_course/blob/main/MODULE1.md) - Remote Environmental Sensing
 
-> [MODULE 1](https://github.com/gcostaneto/EnvRtype_course/blob/main/MODULE1.md) - Remote Environmental Sensing
+[MODULE 2](https://github.com/gcostaneto/EnvRtype_course/blob/main/MODULE2.md) - Macro-Environmental Characterization
 
-> [MODULE 2](https://github.com/gcostaneto/EnvRtype_course/blob/main/MODULE2.md) - Macro-Environmental Characterization
-
-> [MODULE 3](https://github.com/gcostaneto/EnvRtype_course/blob/main/MODULE3.md) - Enviromic-aided Phenotype Prediction (under genomic prediction context) 
+[MODULE 3](https://github.com/gcostaneto/EnvRtype_course/blob/main/MODULE3.md) - Enviromic-aided Phenotype Prediction (under genomic prediction context) 
