@@ -216,8 +216,8 @@ gems.data = foreach(ENV = 1:length(sites), .combine = "rbind") %dopar%
       env.id    = sites      [ENV], 
       lat       = latitudes  [ENV], 
       lon       = longitudes [ENV], 
-     # start.day = start[ENV], 
-    #  end.day   = end  [ENV],
+      start.day = start[ENV], 
+       end.day   = end  [ENV],
       country   = 'BRA'
       
     )
