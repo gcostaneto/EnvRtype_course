@@ -71,6 +71,9 @@ y   = "value"      # name of the vector of phenotypes
 gid = "gid"        # name of the vector of genotypes
 env = "env"        # name of the vector of environments
 
+
+maizeWTH = droplevels(maizeWTH)
+
 ### 1- Environmental Covariables (ECs)
 stages    = c('VE','V1_V6','V6_VT','VT_R1','R1_R3','R3_R6',"H")
 interval  = c(0,7,30,65,70,84,105)
